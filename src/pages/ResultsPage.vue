@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div v-if="playlistLoaded" class="q-pa-xl">
+    <div v-if="playlistLoaded" class="q-pt-xl q-pl-xl q-pr-xl">
       <iframe
         style="border-radius: 12px"
         :src="`https://open.spotify.com/embed/playlist/${playlistId}`"
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="flex flex-center">
+    <div class="flex flex-center q-pt-xs">
       <q-btn
         rounded
         label="Return to search page"
