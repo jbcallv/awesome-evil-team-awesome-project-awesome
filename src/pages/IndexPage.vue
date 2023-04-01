@@ -30,30 +30,27 @@
                 color: '#a94d5a',
               }"
             >
-              <!-- <template v-slot:append>
-              <div class="col-12 text text-h4">Playlist</div>
-            </template> -->
             </q-input>
           </div>
           <div class="col-4 text text-h1 q-pr-xl gt-sm">playlist</div>
 
           <!--for small screens-->
-          <div class="col-12 q-pa-md lt-md">
+          <div class="col-12 q-pb-md q-px-md lt-md">
             <q-input
               v-model="songMixify"
               :input-style="{ fontSize: '30px', textAlign: 'center' }"
             >
-              <!-- <template v-slot:append>
-              <div class="col-12 text text-h4">Playlist</div>
-            </template> -->
             </q-input>
           </div>
-          <div class="col-12 text text-h3 text-center lt-md">playlist</div>
+          <div class="col-12 text text-h3 text-center text-weight-light lt-md">
+            playlist
+          </div>
         </div>
 
-        <div class="row">
-          <div class="col-12 text-center q-pa-sm">
+        <div class="row justify-center">
+          <div class="col-3 text-center q-pa-sm">
             <q-btn
+              class="full-width"
               rounded
               size="lg"
               label="Mixify"
