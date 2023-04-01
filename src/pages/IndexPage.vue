@@ -19,7 +19,11 @@
         <div class="col-7 q-pr-xl q-pa-xl q-pl-xl gt-sm">
           <q-input
             v-model="songMixify"
-            :input-style="{ fontSize: '50px', textAlign: 'center' }"
+            :input-style="{
+              fontSize: '50px',
+              textAlign: 'center',
+              color: '#a94d5a',
+            }"
           >
             <!-- <template v-slot:append>
               <div class="col-12 text text-h4">Playlist</div>
@@ -43,7 +47,7 @@
       </div>
 
       <div class="row">
-        <div class="col-12 text-center q-pa-xl">
+        <div class="col-12 text-center q-pa-sm">
           <q-btn
             rounded
             size="lg"
@@ -56,8 +60,22 @@
     </div>
 
     <div v-else class="column q-gutter-md">
+      <!-- <div class="row">
+        <div class="col-9 text text-h1 text-left">
+          Welcome To
+        </div>
+        <div class="col-3 text text-h1 text-left">
+          Welcome To
+        </div>
+      </div> -->
       <div class="row">
-        <div class="col-12">
+        <div class="col-10 text text-h2 text-center q-pb-md">
+          Connect to Spotify to start
+        </div>
+        <div class="col-2 important-text text-h2 text-center">mixing</div>
+      </div>
+      <div class="row">
+        <div class="col-12 flex flex-center">
           <q-btn
             rounded
             size="lg"
