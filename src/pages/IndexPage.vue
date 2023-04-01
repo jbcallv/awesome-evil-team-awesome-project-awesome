@@ -1,66 +1,71 @@
 <template>
-  <q-page class="flex flex-center">
-    <div v-if="isAuthenticated" class="column q-gutter-md">
-      <div class="row">
-        <div
-          class="col-12 q-pa-md text text-h1 text-weight-light gt-sm q-pl-xl"
-        >
-          Mixify me a...
-        </div>
-
-        <div class="col-12 text-center text text-h3 text-weight-light lt-md">
-          Mixify me a...
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-1 q-pr-md gt-sm"></div>
-        <!--for md+ screens-->
-        <div class="col-7 q-pr-xl q-pa-xl q-pl-xl gt-sm">
-          <q-input
-            v-model="songMixify"
-            :input-style="{
-              fontSize: '50px',
-              textAlign: 'center',
-              color: '#a94d5a',
-            }"
+  <transition
+    appear
+    enter-active-class="animated fadeIn"
+    leave-active-class="animated fadeOut"
+  >
+    <q-page class="flex flex-center">
+      <div v-if="isAuthenticated" class="column q-gutter-md">
+        <div class="row">
+          <div
+            class="col-12 q-pa-md text text-h1 text-weight-light gt-sm q-pl-xl"
           >
-            <!-- <template v-slot:append>
+            Mixify me a...
+          </div>
+
+          <div class="col-12 text-center text text-h3 text-weight-light lt-md">
+            Mixify me a...
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-1 q-pr-md gt-sm"></div>
+          <!--for md+ screens-->
+          <div class="col-7 q-pr-xl q-pa-xl q-pl-xl gt-sm">
+            <q-input
+              v-model="songMixify"
+              :input-style="{
+                fontSize: '50px',
+                textAlign: 'center',
+                color: '#a94d5a',
+              }"
+            >
+              <!-- <template v-slot:append>
               <div class="col-12 text text-h4">Playlist</div>
             </template> -->
-          </q-input>
-        </div>
-        <div class="col-4 text text-h1 q-pr-xl gt-sm">playlist</div>
+            </q-input>
+          </div>
+          <div class="col-4 text text-h1 q-pr-xl gt-sm">playlist</div>
 
-        <!--for small screens-->
-        <div class="col-12 q-pa-md lt-md">
-          <q-input
-            v-model="songMixify"
-            :input-style="{ fontSize: '30px', textAlign: 'center' }"
-          >
-            <!-- <template v-slot:append>
+          <!--for small screens-->
+          <div class="col-12 q-pa-md lt-md">
+            <q-input
+              v-model="songMixify"
+              :input-style="{ fontSize: '30px', textAlign: 'center' }"
+            >
+              <!-- <template v-slot:append>
               <div class="col-12 text text-h4">Playlist</div>
             </template> -->
-          </q-input>
+            </q-input>
+          </div>
+          <div class="col-12 text text-h3 text-center lt-md">playlist</div>
         </div>
-        <div class="col-12 text text-h3 text-center lt-md">playlist</div>
+
+        <div class="row">
+          <div class="col-12 text-center q-pa-sm">
+            <q-btn
+              rounded
+              size="lg"
+              label="Mixify"
+              style="background-color: #a94d5a"
+              @click="searchSpotify()"
+            />
+          </div>
+        </div>
       </div>
 
-      <div class="row">
-        <div class="col-12 text-center q-pa-sm">
-          <q-btn
-            rounded
-            size="lg"
-            label="Mixify"
-            style="background-color: #a94d5a"
-            @click="searchSpotify()"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div v-else class="column q-gutter-md">
-      <!-- <div class="row">
+      <div v-else class="column q-gutter-md">
+        <!-- <div class="row">
         <div class="col-9 text text-h1 text-left">
           Welcome To
         </div>
@@ -68,27 +73,28 @@
           Welcome To
         </div>
       </div> -->
-      <div class="row">
-        <div class="col-10 text text-h2 text-center q-pb-md">
-          Connect to Spotify to start
+        <div class="row">
+          <div class="col-10 text text-h2 text-center q-pb-md">
+            Connect to Spotify to start
+          </div>
+          <div class="col-2 important-text text-h2 text-center">mixing</div>
         </div>
-        <div class="col-2 important-text text-h2 text-center">mixing</div>
-      </div>
-      <div class="row">
-        <div class="col-12 flex flex-center">
-          <q-btn
-            rounded
-            size="lg"
-            icon="fa-brands fa-spotify"
-            label="LOG INTO
+        <div class="row">
+          <div class="col-12 flex flex-center">
+            <q-btn
+              rounded
+              size="lg"
+              icon="fa-brands fa-spotify"
+              label="LOG INTO
           SPOTIFY"
-            style="background-color: #1db954"
-            @click="getAuthorizationToken()"
-          />
+              style="background-color: #1db954"
+              @click="getAuthorizationToken()"
+            />
+          </div>
         </div>
       </div>
-    </div>
-  </q-page>
+    </q-page>
+  </transition>
 </template>
 
 <script>
