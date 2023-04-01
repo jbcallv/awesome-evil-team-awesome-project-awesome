@@ -24,6 +24,7 @@
             size="lg"
             label="Mixify"
             style="background-color: #a94d5a"
+            @click="searchSpotify()"
           />
         </div>
       </div>
@@ -33,15 +34,33 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
 
 export default defineComponent({
   name: "IndexPage",
 
   setup() {
+    const router = useRouter();
+    const route = useRoute();
     const songMixify = ref("");
+
+    function searchSpotify() {
+      axios
+        .get(`${import.meta.env.VITE_BACKEND_URL}/login`, {
+          params: {
+            redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI,
+          },
+        })
+        .then((response) => {
+          window.location = response.data;
+        });
+    }
 
     return {
       songMixify,
+
+      searchSpotify,
     };
   },
 });

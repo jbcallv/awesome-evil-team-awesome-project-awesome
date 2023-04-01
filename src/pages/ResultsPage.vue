@@ -1,11 +1,17 @@
 <template>
-  <q-page padding>
-    <!-- content -->
-  </q-page>
+  <q-page padding> </q-page>
 </template>
 
 <script>
+import { useRoute } from "vue-router";
+
 export default {
-  // name: 'PageName',
-}
+  name: "ResultsPage",
+
+  setup() {
+    const route = useRoute();
+
+    return {};
+  },
+};
 </script>
