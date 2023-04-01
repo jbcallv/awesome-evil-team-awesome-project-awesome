@@ -36,7 +36,9 @@
           <q-btn
             rounded
             size="lg"
-            label="LOG INTO SPOTIFY"
+            icon="fa-brands fa-spotify"
+            label="LOG INTO
+          SPOTIFY"
             style="background-color: #1db954"
             @click="getAuthorizationToken()"
           />
@@ -49,17 +51,30 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useQuasar } from "quasar";
 import axios from "axios";
 
 export default defineComponent({
   name: "IndexPage",
 
   setup() {
+    const $q = useQuasar();
     const router = useRouter();
     const route = useRoute();
     const isAuthenticated = ref(false);
 
     const songMixify = ref("");
+
+    if (checkQueryParameters()) {
+      getAccessToken();
+    }
+
+    function checkQueryParameters() {
+      if (route.query.code) {
+        return true;
+      }
+      return false;
+    }
 
     function getAuthorizationToken() {
       axios
@@ -73,11 +88,34 @@ export default defineComponent({
         });
     }
 
+    function getAccessToken() {
+      axios
+        .get(`${import.meta.env.VITE_BACKEND_URL}/access-token`, {
+          params: {
+            code: route.query.code,
+            redirect_uri: `${import.meta.env.VITE_SPOTIFY_REDIRECT_URI}`,
+          },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            $q.notify({
+              icon: "fa-solid fa-check",
+              message: "Authenticated with Spotify",
+            });
+            isAuthenticated.value = true;
+            sessionStorage.setItem("accessToken", response.data.access_token);
+          }
+        });
+    }
+
+    function searchSpotify() {}
+
     return {
       isAuthenticated,
       songMixify,
 
       getAuthorizationToken,
+      searchSpotify,
     };
   },
 });
