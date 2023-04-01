@@ -67,10 +67,17 @@
 
       <div v-else class="column q-gutter-md">
         <div class="row">
-          <div class="col-10 text text-h2 text-center q-pb-md">
+          <div class="col-12 text text-h2 text-center q-pb-md gt-sm">
             Connect to Spotify to start
+            <span class="important-text">mixing</span>
           </div>
-          <div class="col-2 important-text text-h2 text-center">mixing</div>
+
+          <div
+            class="col-12 text text-h4 text-weight-light text-center q-pb-md lt-md"
+          >
+            Connect to Spotify to start
+            <span class="important-text">mixing</span>
+          </div>
         </div>
         <div class="row">
           <div class="col-12 flex flex-center">
@@ -96,20 +103,186 @@ import { useRoute, useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import store from "src/store";
 import axios from "axios";
-const stopWords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", 
-    "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 
-    'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 
-    'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 
-    'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 
-    'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 
-    'at', 'by', 'for', 'with', 'about', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 
-    'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 
-    'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 
-    'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 
-    'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', 
-    "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 
-    'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"];
-
+const stopWords = [
+  "i",
+  "me",
+  "my",
+  "myself",
+  "we",
+  "our",
+  "ours",
+  "ourselves",
+  "you",
+  "you're",
+  "you've",
+  "you'll",
+  "you'd",
+  "your",
+  "yours",
+  "yourself",
+  "yourselves",
+  "he",
+  "him",
+  "his",
+  "himself",
+  "she",
+  "she's",
+  "her",
+  "hers",
+  "herself",
+  "it",
+  "it's",
+  "its",
+  "itself",
+  "they",
+  "them",
+  "their",
+  "theirs",
+  "themselves",
+  "what",
+  "which",
+  "who",
+  "whom",
+  "this",
+  "that",
+  "that'll",
+  "these",
+  "those",
+  "am",
+  "is",
+  "are",
+  "was",
+  "were",
+  "be",
+  "been",
+  "being",
+  "have",
+  "has",
+  "had",
+  "having",
+  "do",
+  "does",
+  "did",
+  "doing",
+  "a",
+  "an",
+  "the",
+  "and",
+  "but",
+  "if",
+  "or",
+  "because",
+  "as",
+  "until",
+  "while",
+  "of",
+  "at",
+  "by",
+  "for",
+  "with",
+  "about",
+  "between",
+  "into",
+  "through",
+  "during",
+  "before",
+  "after",
+  "above",
+  "below",
+  "to",
+  "from",
+  "up",
+  "down",
+  "in",
+  "out",
+  "on",
+  "off",
+  "over",
+  "under",
+  "again",
+  "further",
+  "then",
+  "once",
+  "here",
+  "there",
+  "when",
+  "where",
+  "why",
+  "how",
+  "all",
+  "any",
+  "both",
+  "each",
+  "few",
+  "more",
+  "most",
+  "other",
+  "some",
+  "such",
+  "no",
+  "nor",
+  "not",
+  "only",
+  "own",
+  "same",
+  "so",
+  "than",
+  "too",
+  "very",
+  "s",
+  "t",
+  "can",
+  "will",
+  "just",
+  "don",
+  "don't",
+  "should",
+  "should've",
+  "now",
+  "d",
+  "ll",
+  "m",
+  "o",
+  "re",
+  "ve",
+  "y",
+  "ain",
+  "aren",
+  "aren't",
+  "couldn",
+  "couldn't",
+  "didn",
+  "didn't",
+  "doesn",
+  "doesn't",
+  "hadn",
+  "hadn't",
+  "hasn",
+  "hasn't",
+  "haven",
+  "haven't",
+  "isn",
+  "isn't",
+  "ma",
+  "mightn",
+  "mightn't",
+  "mustn",
+  "mustn't",
+  "needn",
+  "needn't",
+  "shan",
+  "shan't",
+  "shouldn",
+  "shouldn't",
+  "wasn",
+  "wasn't",
+  "weren",
+  "weren't",
+  "won",
+  "won't",
+  "wouldn",
+  "wouldn't",
+];
 
 export default defineComponent({
   name: "IndexPage",
@@ -211,13 +384,12 @@ export default defineComponent({
         }
       );
       //randomize
-      const candidates = response.data.playlists.items.slice(0,20);
+      const candidates = response.data.playlists.items.slice(0, 20);
       let items = [];
-      for (let i = 0; i < 5; i++){
+      for (let i = 0; i < 5; i++) {
         const randomIndex = Math.floor(
-            Math.random() * (candidates.length - 1 - 0 + 1) +
-              0
-          );
+          Math.random() * (candidates.length - 1 - 0 + 1) + 0
+        );
         items.push(candidates[randomIndex]);
       }
       return items;
@@ -241,7 +413,7 @@ export default defineComponent({
       //split da words
       const value = songMixify.value;
       const words = value.split(" ");
-      const trimmedString = words.filter(word => !stopWords.includes(word));
+      const trimmedString = words.filter((word) => !stopWords.includes(word));
       //join da words
       const finalString = trimmedString.join(" ");
       if (finalString === "") finalString = "100 gecs";
