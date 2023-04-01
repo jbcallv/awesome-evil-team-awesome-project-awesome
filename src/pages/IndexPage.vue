@@ -69,10 +69,17 @@
         </div>
       </div> -->
       <div class="row">
-        <div class="col-10 text text-h2 text-center q-pb-md">
+        <div class="col-12 text text-h5 text-center lt-md">
           Connect to Spotify to start
         </div>
-        <div class="col-2 important-text text-h2 text-center">mixing</div>
+        <div class="col-12 important-text text-h5 text-center lt-md">
+          mixing
+        </div>
+
+        <div class="col-10 text text-h2 text-center q-pb-md gt-sm">
+          Connect to Spotify to start
+        </div>
+        <div class="col-2 important-text text-h2 text-center gt-sm">mixing</div>
       </div>
       <div class="row">
         <div class="col-12 flex flex-center">
