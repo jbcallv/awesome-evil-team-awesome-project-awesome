@@ -1,4 +1,5 @@
 <template>
+
   <q-page padding>
     <q-table
       v-if="tracksLoaded"
@@ -33,6 +34,7 @@
         No results to display 😔
       </div>
     </div>
+
 
     <div class="row justify-center q-gutter-md">
       <div class="col-md-2 col-11">
