@@ -11,29 +11,25 @@
   color: $important-text;
 }
 
-.input-box {
-  outline-color: $text;
+.q-field--standard .q-field__control:before {
+  border-color: $text;
 }
 
-.custom-input {
-  position: relative;
+.q-field--standard:hover .q-field__control:before {
+  border-color: black;
 }
 
-.custom-input input {
-  border: none;
-  outline: none;
-  width: 100%;
-  font-size: 50px;
-  padding: 5px 0; /* increase padding */
-  background-color: transparent;
+.q-field--standard .q-field__label {
   color: $text;
 }
 
-.underline {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: $text;
+.q-field__native,
+.q-field__prefix,
+.q-field__suffix,
+.q-field__input {
+  color: $text;
+}
+
+.q-toolbar {
+  background-color: #212d40;
 }
