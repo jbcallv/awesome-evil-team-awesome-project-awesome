@@ -383,16 +383,8 @@ export default defineComponent({
           },
         }
       );
-      //randomize
-      const candidates = response.data.playlists.items.slice(0, 20);
-      let items = [];
-      for (let i = 0; i < 5; i++) {
-        const randomIndex = Math.floor(
-          Math.random() * (candidates.length - 1 - 0 + 1) + 0
-        );
-        items.push(candidates[randomIndex]);
-      }
-      return items;
+
+      return response.data.items.slice(0, 5);
     }
 
     async function searchSpotifyTracks() {
