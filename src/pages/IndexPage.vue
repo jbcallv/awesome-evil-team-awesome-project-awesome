@@ -102,6 +102,7 @@
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useQuasar } from "quasar";
+import store from "src/store";
 import axios from "axios";
 
 export default defineComponent({
@@ -159,7 +160,8 @@ export default defineComponent({
     }
 
     function searchSpotify() {
-      console.log(songMixify.value);
+      store.playlistName.value = songMixify.value;
+
       axios
         .get(
           `https://api.spotify.com/v1/search?q=${songMixify.value}&type=playlist`,
@@ -169,15 +171,66 @@ export default defineComponent({
             },
           }
         )
-        .then((response) => {
-          const randomIndex = Math.floor(Math.random() * (15 - 0 + 1) + 0);
-          console.log(response.data.playlists.items[randomIndex]);
-          sessionStorage.setItem(
-            "spotifyPlaylistId",
-            response.data.playlists.items[randomIndex].id
+        .then(async (response) => {
+          const randomIndex = Math.floor(
+            Math.random() * (response.data.playlists.items.length - 1 - 0 + 1) +
+              0
           );
+
+          const playlist = response.data.playlists.items[randomIndex];
+
+          let playlistTracks = await searchPlaylistTracks(playlist.id);
+          let spotifyTracks = await searchSpotifyTracks();
+
+          let tracks = mergeTracks(playlistTracks, spotifyTracks);
+
+          store.tracks.value = tracks;
+
           router.push("/results");
         });
+    }
+
+    async function searchPlaylistTracks(playlistId) {
+      let response = await axios.get(
+        `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      return response.data.items.slice(0, 5);
+    }
+
+    async function searchSpotifyTracks() {
+      const trackQuery = filterUserQuery();
+      let response = await axios.get(
+        `https://api.spotify.com/v1/search?q=${trackQuery}&type=track`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      return response.data.tracks.items.slice(0, 5);
+    }
+
+    function filterUserQuery() {
+      return "test";
+    }
+
+    function mergeTracks(playlistTracks, spotifyTracks) {
+      const filteredPlaylistTracks = playlistTracks.map((track) => {
+        return { id: track.track.id, uri: track.track.uri };
+      });
+      const filteredSpotifyTracks = spotifyTracks.map((track) => {
+        return { id: track.id, uri: track.uri };
+      });
+
+      const tracks = [...filteredPlaylistTracks, ...filteredSpotifyTracks];
+      return tracks;
     }
 
     return {
