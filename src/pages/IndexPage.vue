@@ -108,7 +108,27 @@ export default defineComponent({
         });
     }
 
-    function searchSpotify() {}
+    function searchSpotify() {
+      console.log(songMixify.value);
+      axios
+        .get(
+          `https://api.spotify.com/v1/search?q=${songMixify.value}&type=playlist`,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            },
+          }
+        )
+        .then((response) => {
+          const randomIndex = Math.floor(Math.random() * (15 - 0 + 1) + 0);
+          console.log(response.data.playlists.items[randomIndex]);
+          sessionStorage.setItem(
+            "spotifyPlaylistId",
+            response.data.playlists.items[randomIndex].id
+          );
+          router.push("/results");
+        });
+    }
 
     return {
       isAuthenticated,
