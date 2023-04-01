@@ -58,6 +58,7 @@
               size="lg"
               label="Mixify"
               style="background-color: #a94d5a"
+              :loading="isLoading"
               @click="searchSpotify()"
             />
           </div>
@@ -65,14 +66,6 @@
       </div>
 
       <div v-else class="column q-gutter-md">
-        <!-- <div class="row">
-        <div class="col-9 text text-h1 text-left">
-          Welcome To
-        </div>
-        <div class="col-3 text text-h1 text-left">
-          Welcome To
-        </div>
-      </div> -->
         <div class="row">
           <div class="col-10 text text-h2 text-center q-pb-md">
             Connect to Spotify to start
@@ -112,6 +105,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const isAuthenticated = ref(false);
+    const isLoading = ref(false);
 
     const songMixify = ref("");
 
@@ -159,6 +153,7 @@ export default defineComponent({
     }
 
     function searchSpotify() {
+      isLoading.value = true;
       store.playlistName.value = songMixify.value;
 
       axios
@@ -186,6 +181,9 @@ export default defineComponent({
           store.tracks.value = tracks;
 
           router.push("/results");
+        })
+        .finally(() => {
+          isLoading.value = false;
         });
     }
 
@@ -235,6 +233,7 @@ export default defineComponent({
     return {
       isAuthenticated,
       songMixify,
+      isLoading,
 
       getAuthorizationToken,
       searchSpotify,

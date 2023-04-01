@@ -58,6 +58,7 @@
             style="background-color: #1db954"
             size="lg"
             icon="fa-brands fa-spotify"
+            :loading="isLoading"
             @click="savePlaylist()"
           />
         </div>
@@ -91,6 +92,7 @@ export default {
     const router = useRouter();
     const rows = ref([]);
     const tracksLoaded = ref(true);
+    const isLoading = ref(false);
 
     rows.value = store.tracks.value;
 
@@ -102,15 +104,21 @@ export default {
       router.push("/");
     }
 
-    async function savePlaylist() {
-      const playlistId = await createNewPlaylist();
-      addTracksToPlaylist(playlistId).then(() => {
-        $q.notify({
-          icon: "fa-solid fa-check",
-          message: "Playlist saved",
+    function savePlaylist() {
+      isLoading.value = true;
+      createNewPlaylist()
+        .then((playlistId) => {
+          addTracksToPlaylist(playlistId).then(() => {
+            $q.notify({
+              icon: "fa-solid fa-check",
+              message: "Playlist saved",
+            });
+            router.push("/");
+          });
+        })
+        .finally(() => {
+          isLoading.value = false;
         });
-        router.push("/");
-      });
     }
 
     async function createNewPlaylist() {
@@ -147,7 +155,6 @@ export default {
         const rawTrackData = toRaw(track);
         return rawTrackData.uri;
       });
-      console.log(trackUris);
 
       let response = await axios.post(
         `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
@@ -160,13 +167,12 @@ export default {
           },
         }
       );
-
-      console.log(response.data);
     }
 
     return {
       columns,
       rows,
+      isLoading,
 
       tracksLoaded,
 
