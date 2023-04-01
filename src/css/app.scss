@@ -1,1 +1,39 @@
 // app global css in SCSS form
+.dark-container {
+  background: #212d40;
+}
+
+.text {
+  color: $text;
+}
+
+.important-text {
+  color: $important-text;
+}
+
+.input-box {
+  outline-color: $text;
+}
+
+.custom-input {
+  position: relative;
+}
+
+.custom-input input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 50px;
+  padding: 5px 0; /* increase padding */
+  background-color: transparent;
+  color: $text;
+}
+
+.underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: $text;
+}
